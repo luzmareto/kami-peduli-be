@@ -10,6 +10,7 @@ import (
 type Service interface {
 	RegisterUser(input RegisterUserInput) (User, error)
 	Login(input LoginInput) (User, error)
+	IsEmailAvailable(input CheckEmailInput) (bool, error) // pengecekan avail email saat registrasi
 }
 
 // memasukan Repository ke dalam service
@@ -57,7 +58,7 @@ func (s *service) Login(input LoginInput) (User, error) {
 		return user, err
 	}
 	if user.ID == 0 {
-		return user, errors.New("No user found thath email")
+		return user, errors.New("no user found thath email")
 	}
 
 	// pencocokan password
@@ -66,4 +67,22 @@ func (s *service) Login(input LoginInput) (User, error) {
 		return user, err
 	}
 	return user, nil
+}
+
+// pengecekan emaail saat register
+func (s *service) IsEmailAvailable(input CheckEmailInput) (bool, error) {
+	email := input.Email
+
+	// pengecekan email yang sudah terdaftar = GAGAL
+	user, err := s.repository.FindByEmail(email)
+	if err != nil {
+		return false, err
+	}
+
+	// pengecekan email yang belum terdaftar. Berhasil
+	if user.ID == 0 {
+		return true, nil
+	}
+
+	return false, nil
 }

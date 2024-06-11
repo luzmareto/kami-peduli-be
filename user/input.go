@@ -15,3 +15,8 @@ type LoginInput struct {
 	Email    string `json:"email" binding:"required,email"`
 	Password string `json:"password" binding:"required"`
 }
+
+// validasi email sudah terdaftar/belum saat registrasi
+type CheckEmailInput struct {
+	Email string `json:"email" binding:"required,email"` //using format email
+}
