@@ -47,3 +47,33 @@ func (h *userHandler) RegisterUser(c *gin.Context) {
 
 	c.JSON(http.StatusOK, response)
 }
+
+// input akan dikelola hanndler dan dipassing ke service untuk mencocokan email & pass
+func (h *userHandler) Login(c *gin.Context) {
+	var input user.LoginInput
+
+	err := c.ShouldBindJSON(&input)
+	if err != nil {
+		errors := helper.FormatValidatationError(err)
+		errorMessage := gin.H{"error": errors}
+
+		response := helper.APIResponse("Login fail", http.StatusUnprocessableEntity, "error,", errorMessage)
+		c.JSON(http.StatusUnprocessableEntity, response)
+		return
+	}
+
+	// validasi agar ketika login gagal, maka prosesnya akan berhenti
+	loggedinUser, err := h.userService.Login(input)
+	if err != nil {
+		errorMessage := gin.H{"error": err.Error()}
+
+		response := helper.APIResponse("Login fail", http.StatusUnprocessableEntity, "error,", errorMessage)
+		c.JSON(http.StatusUnprocessableEntity, response)
+		return
+	}
+
+	// berhasil
+	formatter := user.FormatUser(loggedinUser, "tokentokentokentoken")
+	response := helper.APIResponse("Succsessfully Login", http.StatusOK, "succsess,", formatter)
+	c.JSON(http.StatusOK, response)
+}

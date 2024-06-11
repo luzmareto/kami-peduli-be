@@ -4,7 +4,8 @@ import "gorm.io/gorm"
 
 // penyimpanan function yang akan dipanggil handler
 type Repository interface {
-	Save(user User) (User, error) //parameter user isinya struct user. outputnya User & error
+	Save(user User) (User, error)           //register user
+	FindByEmail(email string) (User, error) //login
 }
 
 // config db
@@ -26,4 +27,15 @@ func (r *repository) Save(user User) (User, error) {
 
 	return user, nil
 
+}
+
+// mencocokan email & pass
+func (r *repository) FindByEmail(email string) (User, error) {
+	var user User
+
+	err := r.db.Where("email = ?", email).Find(&user).Error
+	if err != nil {
+		return user, err
+	}
+	return user, err
 }
