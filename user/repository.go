@@ -6,6 +6,8 @@ import "gorm.io/gorm"
 type Repository interface {
 	Save(user User) (User, error)           //register user
 	FindByEmail(email string) (User, error) //login
+	FindByID(ID int) (User, error)          //bisa untuk apload avatar
+	Update(user User) (User, error)         //bisa untuk apload avatar
 }
 
 // config db
@@ -29,7 +31,7 @@ func (r *repository) Save(user User) (User, error) {
 
 }
 
-// mencocokan email & pass
+// mencocokan email UNTUK LOGIN
 func (r *repository) FindByEmail(email string) (User, error) {
 	var user User
 
@@ -38,4 +40,26 @@ func (r *repository) FindByEmail(email string) (User, error) {
 		return user, err
 	}
 	return user, err
+}
+
+// MENCARI ID USER UNTUK UPLOAD AVATAR
+func (r *repository) FindByID(ID int) (User, error) {
+	var user User
+
+	err := r.db.Where("id = ?", ID).Find(&user).Error
+	if err != nil {
+		return user, err
+	}
+	return user, err
+}
+
+// update avatar
+func (r *repository) Update(user User) (User, error) {
+	// data yang sudah ada akan disimpan
+	err := r.db.Save(&user).Error
+	if err != nil {
+		return user, err
+	}
+	return user, nil
+
 }

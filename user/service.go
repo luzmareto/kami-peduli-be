@@ -11,6 +11,7 @@ type Service interface {
 	RegisterUser(input RegisterUserInput) (User, error)
 	Login(input LoginInput) (User, error)
 	IsEmailAvailable(input CheckEmailInput) (bool, error) // pengecekan avail email saat registrasi
+	SaveAvatar(ID int, fileLocation string) (User, error)
 }
 
 // memasukan Repository ke dalam service
@@ -85,4 +86,22 @@ func (s *service) IsEmailAvailable(input CheckEmailInput) (bool, error) {
 	}
 
 	return false, nil
+}
+
+func (s *service) SaveAvatar(ID int, fileLocation string) (User, error) {
+	// mencari id yang akan melakukan update avatar
+	user, err := s.repository.FindByID(ID)
+	if err != nil {
+		return user, err
+	}
+
+	user.AvatarFileName = fileLocation
+
+	// menyimpan perubahan ke db
+	updatedUser, err := s.repository.Update(user)
+	if err != nil {
+		return updatedUser, err
+	}
+
+	return updatedUser, nil
 }
