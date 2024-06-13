@@ -21,11 +21,26 @@ func main() {
 	}
 	userRepository := user.NewRepository(db)
 	userService := user.NewService(userRepository)
-	autService := auth.NewService()
+	authService := auth.NewService()
 
-	fmt.Println(autService.GenerateToken(1001))
+	token, err := authService.ValidateToken("eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjoxNn0.yvjI3g4swUFhF3Hjk_EXRYxCNepF2B_DZsiWw34S7fU")
+	if err != nil {
+		fmt.Println("ERROR")
+		fmt.Println("ERROR")
+		fmt.Println("ERROR")
+	}
 
-	userHandler := handler.NewUserHandler(userService, autService)
+	if token.Valid {
+		fmt.Println("VALID")
+		fmt.Println("VALID")
+		fmt.Println("VALID")
+	} else {
+		fmt.Println("INVALID")
+	}
+
+	fmt.Println(authService.GenerateToken(1001))
+
+	userHandler := handler.NewUserHandler(userService, authService)
 
 	// routing grouping
 	router := gin.Default()
