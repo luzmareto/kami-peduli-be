@@ -143,7 +143,8 @@ func (h *userHandler) UploadAvatar(c *gin.Context) {
 		return
 	}
 
-	userID := 1
+	currentUser := c.MustGet("currentUser").(user.User)
+	userID := currentUser.ID
 
 	// lokasi penyimpanan avatar dan auto mengubah nama file yang di upload oleh user
 	path := fmt.Sprintf("images/%d-%s", userID, file.Filename) //otomatis akan memasukan id user ke db
