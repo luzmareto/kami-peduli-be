@@ -1,6 +1,8 @@
 package main
 
 import (
+	"fmt"
+	"kami-peduli/auth"
 	"kami-peduli/handler"
 	"kami-peduli/user"
 	"log"
@@ -19,8 +21,11 @@ func main() {
 	}
 	userRepository := user.NewRepository(db)
 	userService := user.NewService(userRepository)
+	autService := auth.NewService()
 
-	userHandler := handler.NewUserHandler(userService)
+	fmt.Println(autService.GenerateToken(1001))
+
+	userHandler := handler.NewUserHandler(userService, autService)
 
 	// routing grouping
 	router := gin.Default()
@@ -30,7 +35,6 @@ func main() {
 	api.POST("/users", userHandler.RegisterUser)
 	api.POST("/sessions", userHandler.Login)
 	api.POST("/email_checkers", userHandler.CheckEmailAvailability)
-	api.POST("/avatars", userHandler.UploadAvatar)
 
 	router.Run()
 }

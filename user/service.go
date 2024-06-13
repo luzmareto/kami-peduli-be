@@ -12,6 +12,7 @@ type Service interface {
 	Login(input LoginInput) (User, error)
 	IsEmailAvailable(input CheckEmailInput) (bool, error) // pengecekan avail email saat registrasi
 	SaveAvatar(ID int, fileLocation string) (User, error)
+	GetUserById(ID int) (User, error) //bisa digunakan untuk token
 }
 
 // memasukan Repository ke dalam service
@@ -104,4 +105,18 @@ func (s *service) SaveAvatar(ID int, fileLocation string) (User, error) {
 	}
 
 	return updatedUser, nil
+}
+
+func (s *service) GetUserById(ID int) (User, error) {
+	// memanggil FindByEmail di repository.go untuk melakukan pencocokan
+	user, err := s.repository.FindByID(ID)
+	if err != nil {
+		return user, err
+	}
+
+	if user.ID == 0 {
+		return user, errors.New("No user found on that id")
+	}
+
+	return user, nil
 }
