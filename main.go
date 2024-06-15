@@ -3,6 +3,7 @@ package main
 import (
 	"fmt"
 	"kami-peduli/auth"
+	"kami-peduli/campaign"
 	"kami-peduli/handler"
 	"kami-peduli/helper"
 	"kami-peduli/user"
@@ -24,18 +25,29 @@ func main() {
 		log.Fatal(err.Error())
 	}
 	userRepository := user.NewRepository(db)
+
+	campaignRepository := campaign.NewRepository(db)
+	campaign, err := campaignRepository.FindUserId(1)
+	fmt.Println("debug")
+	fmt.Println("debug")
+	fmt.Println("debug")
+	fmt.Println(len(campaign))
+	for _, campaign := range campaign {
+		fmt.Println(campaign.Name)
+		if len(campaign.CampaignImages) > 0 {
+			fmt.Println(campaign.CampaignImages[0].FileName)
+		}
+
+	}
+
 	userService := user.NewService(userRepository)
 	authService := auth.NewService()
 
-	fmt.Println(authService.GenerateToken(1001))
-
 	userHandler := handler.NewUserHandler(userService, authService)
 
-	// routing grouping
 	router := gin.Default()
 	api := router.Group("/api/v1")
 
-	// register
 	api.POST("/users", userHandler.RegisterUser)
 	api.POST("/sessions", userHandler.Login)
 	api.POST("/email_checkers", userHandler.CheckEmailAvailability)
@@ -54,7 +66,6 @@ func authMiddleware(authService auth.Service, userService user.Service) gin.Hand
 			return
 		}
 
-		// bearer tokentokentokentoken
 		tokenString := " "
 		arrayToken := strings.Split(authHeader, " ")
 		if len(arrayToken) == 2 {
