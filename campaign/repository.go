@@ -1,10 +1,13 @@
 package campaign
 
-import "gorm.io/gorm"
+import (
+	"gorm.io/gorm"
+)
 
 type Repository interface {
 	FindAll() ([]Campaign, error)
 	FindUserId(UserID int) ([]Campaign, error)
+	FindById(ID int) (Campaign, error)
 }
 
 type repository struct {
@@ -35,4 +38,15 @@ func (r *repository) FindUserId(UserID int) ([]Campaign, error) {
 	}
 
 	return campaigns, nil
+}
+
+func (r *repository) FindById(ID int) (Campaign, error) {
+	var campaign Campaign
+
+	// sekaligus menggunakan preload untuk mendapatkan data images dan user yang membuat campaign
+	err := r.db.Preload("User").Preload("CampaignImages").Where("id = ?", ID).Find(&campaign).Error
+	if err != nil {
+		return campaign, err
+	}
+	return campaign, nil
 }
