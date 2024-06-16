@@ -7,8 +7,9 @@ import (
 type Repository interface {
 	FindAll() ([]Campaign, error)
 	FindUserId(UserID int) ([]Campaign, error)
-	FindById(ID int) (Campaign, error)
+	FindByID(ID int) (Campaign, error)
 	Save(campaign Campaign) (Campaign, error)
+	Update(campaign Campaign) (Campaign, error)
 }
 
 type repository struct {
@@ -41,7 +42,7 @@ func (r *repository) FindUserId(UserID int) ([]Campaign, error) {
 	return campaigns, nil
 }
 
-func (r *repository) FindById(ID int) (Campaign, error) {
+func (r *repository) FindByID(ID int) (Campaign, error) {
 	var campaign Campaign
 
 	// sekaligus menggunakan preload untuk mendapatkan data images dan user yang membuat campaign
@@ -59,4 +60,13 @@ func (r *repository) Save(campaign Campaign) (Campaign, error) {
 	}
 
 	return campaign, nil
+}
+
+func (r *repository) Update(campaign Campaign) (Campaign, error) {
+	err := r.db.Save(&campaign).Error
+	if err != nil {
+		return campaign, err
+	}
+	return campaign, nil
+
 }
