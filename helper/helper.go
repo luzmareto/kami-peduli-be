@@ -1,6 +1,10 @@
 package helper
 
-import "github.com/go-playground/validator/v10"
+import (
+	"encoding/json"
+
+	"github.com/go-playground/validator/v10"
+)
 
 // response api dengan return meta dan data
 type Response struct {
@@ -30,11 +34,30 @@ func APIResponse(message string, code int, status string, data interface{}) Resp
 	return jsonResponse
 }
 
+// func FormatValidatationError(err error) []string {
+// 	var errors []string
+
+// 	for _, e := range err.(validator.ValidationErrors) {
+// 		errors = append(errors, e.Error())
+// 	}
+// 	return errors
+// }
+
 func FormatValidatationError(err error) []string {
 	var errors []string
 
-	for _, e := range err.(validator.ValidationErrors) {
-		errors = append(errors, e.Error())
+	if ve, ok := err.(validator.ValidationErrors); ok {
+		for _, e := range ve {
+			errors = append(errors, e.Error())
+		}
+		return errors
 	}
+
+	if se, ok := err.(*json.SyntaxError); ok {
+		errors = append(errors, se.Error())
+		return errors
+	}
+
+	errors = append(errors, err.Error())
 	return errors
 }
