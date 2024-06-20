@@ -1,6 +1,7 @@
 package transaction
 
 import (
+	"kami-peduli/campaign"
 	"kami-peduli/user"
 	"time"
 )
@@ -13,6 +14,7 @@ type Transaction struct {
 	Status     string
 	Code       string
 	User       user.User
+	Campaign   campaign.Campaign
 	CreateAt   time.Time
 	UpdatedAt  time.Time
 }
