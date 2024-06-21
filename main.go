@@ -5,6 +5,7 @@ import (
 	"kami-peduli/campaign"
 	"kami-peduli/handler"
 	"kami-peduli/helper"
+	"kami-peduli/payment"
 	"kami-peduli/transaction"
 	"kami-peduli/user"
 	"log"
@@ -31,7 +32,8 @@ func main() {
 	userService := user.NewService(userRepository)
 	campaignService := campaign.NewService(campaignRepository)
 	authService := auth.NewService()
-	transactionService := transaction.NewService(transactionRepository, campaignRepository)
+	paymmentService := payment.NewService()
+	transactionService := transaction.NewService(transactionRepository, campaignRepository, paymmentService)
 
 	userHandler := handler.NewUserHandler(userService, authService)
 	campaignHandler := handler.NewCampaignHandler(campaignService)
@@ -53,7 +55,7 @@ func main() {
 	api.POST("/campaign-images", authMiddleware(authService, userService), campaignHandler.UploadImage)
 
 	api.GET("/campaigns/:id/transactions", authMiddleware(authService, userService), transactionHandler.GetCampaignTransactions)
-	api.GET("/transactions", authMiddleware(authService, userService), transactionHandler.GetUSerTransactions)
+	api.POST("/transactions", authMiddleware(authService, userService), transactionHandler.CreateTransaction)
 
 	router.Run()
 }
