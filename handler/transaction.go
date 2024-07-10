@@ -1,6 +1,7 @@
 package handler
 
 import (
+	"fmt"
 	"kami-peduli/helper"
 	"kami-peduli/transaction"
 	"kami-peduli/user"
@@ -77,11 +78,35 @@ func (h *transactionHandler) CreateTransaction(c *gin.Context) {
 
 	newTransaction, err := h.service.CreateTransaction(input)
 	if err != nil {
-		response := helper.APIResponse("Failed to create transaction", http.StatusBadRequest, "error,", nil)
+		response := helper.APIResponse("Failed to create transaction", http.StatusBadRequest, "error", nil)
 		c.JSON(http.StatusBadRequest, response)
 		return
 	}
 
 	response := helper.APIResponse("success to create transaction", http.StatusOK, "success,", transaction.FormatTransaction(newTransaction))
 	c.JSON(http.StatusOK, response)
+}
+
+func (h *transactionHandler) GetNotification(c *gin.Context) {
+	var input transaction.TransactionNotificationInput
+
+	err := c.ShouldBindJSON(&input)
+
+	if err != nil {
+		response := helper.APIResponse("failed to proses", http.StatusBadRequest, "error", nil)
+		c.JSON(http.StatusBadRequest, response)
+
+		return
+	}
+	fmt.Printf("Received notification: %+v\n", input)
+
+	err = h.service.ProcessPayment(input)
+	if err != nil {
+		response := helper.APIResponse("failed to proses", http.StatusBadRequest, "error", nil)
+		c.JSON(http.StatusBadRequest, response)
+
+		return
+	}
+
+	c.JSON(http.StatusOK, input)
 }
