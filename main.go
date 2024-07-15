@@ -26,6 +26,7 @@ func main() {
 	if err != nil {
 		log.Fatal(err.Error())
 	}
+
 	userRepository := user.NewRepository(db)
 	campaignRepository := campaign.NewRepository(db)
 	transactionRepository := transaction.NewRepository(db)
@@ -42,6 +43,20 @@ func main() {
 
 	router := gin.Default()
 	router.Use(cors.Default())
+
+	// Konfigurasi CORS default
+	router.Use(cors.Default())
+
+	// Atau Anda dapat menggunakan konfigurasi kustom
+	// config := cors.Config{
+	// 	AllowOrigins:     []string{"http://localhost:3000/"}, // Ganti dengan domain yang diizinkan
+	// 	AllowMethods:     []string{"GET", "POST", "PUT", "DELETE"},
+	// 	AllowHeaders:     []string{"Origin", "Content-Type", "Authorization"},
+	// 	ExposeHeaders:    []string{"Content-Length"},
+	// 	AllowCredentials: true,
+	// }
+	// router.Use(cors.New(config))
+
 	router.Static("/images", "./images") //routing untuk gambar. images pertama untuk endpoint, yg ke-2 path
 	api := router.Group("/api/v1")
 
@@ -49,7 +64,7 @@ func main() {
 	api.POST("/sessions", userHandler.Login)
 	api.POST("/email_checkers", userHandler.CheckEmailAvailability)
 	api.POST("/avatars", authMiddleware(authService, userService), userHandler.UploadAvatar)
-	api.POST("/users/fetch", authMiddleware(authService, userService), userHandler.FetchUser)
+	api.GET("/users/fetch", authMiddleware(authService, userService), userHandler.FetchUser)
 
 	api.GET("/campaigns", campaignHandler.GetCampaigns)
 	api.GET("/campaigns/:id", campaignHandler.GetCampaign)
@@ -68,7 +83,7 @@ func authMiddleware(authService auth.Service, userService user.Service) gin.Hand
 	return func(c *gin.Context) {
 		authHeader := c.GetHeader("Authorization")
 
-		if !strings.Contains(authHeader, "bearer") {
+		if !strings.Contains(authHeader, "Bearer") {
 			response := helper.APIResponse("Unauthorization", http.StatusUnauthorized, "error", nil)
 			c.AbortWithStatusJSON(http.StatusUnauthorized, response)
 			return

@@ -1,0 +1,70 @@
+- Perbaikan Temuan Pentest Dashboard CXO
+- menjadi Onboarding NTB Giro & CM - form pdf
+- Onboarding NTB Giro & CM - send email registrasi
+- Onboarding ETB CM - form pdf
+- Onboarding ETB CM - send email registrasi
+- Unhide SSO iframe CM
+- Penambahan email notifikasi pada saat user hubungkan layanan (CXO)
+- Validasi register SSO cash management di CXO
+- Standar Strong Password CXO
+- Forgot password role non admin (CXO)
+- Forgot password role admin (CXO)
+- SSO & iframe perubahan endpoint miciroservice registration channel SmartVA (CXO)
+- SSO & iframe perubahan endpoint miciroservice redirect channel SmartVA (CXO)
+- SSO & iframe perubahan endpoint miciroservice unlink channel SmartVA (CXO)
+- SSO & iframe perubahan endpoint miciroservice logout channel SmartVA (CXO)
+- SSO & iframe handling change password channel SmartVA (CXO)
+- SSO & iframe handling session expired SmartVA (CXO)
+- SSO & iframe handling logout configuration SmartVA (CXO)
+- SSO & iframe approval CXO Pending Bank Acceptance (CXO)
+- SSO & iframe approval BO admin maker (CXO)
+- SSO & iframe approval BO admin approver (CXO)
+- SSO & iframe approval email notifikasi (CXO)
+- Pengembangan login sysadmin Cash Management di CXO - login user CM
+- Pengembangan login sysadmin Cash Management di CXO - login user CXO
+- Pengembangan user management
+- CXO dashboard new UI - widget simpanan
+- CXO dashboard new UI - detail widget simpanan
+- CXO dashboard new UI - detail widget simpanan berdasarkan kategori
+- CXO dashboard new UI - widget balance rekening simpanan
+- CXO dashboard new UI - widget pinjaman
+- CXO dashboard new UI - detail widget pinjaman
+- CXO dashboard new UI - detail widget pinjaman berdasarkan kategori
+- CXO dashboard new UI - widget balance rekening pinjama
+- CXO dashboard new UI - kurs & konversi
+- CXO dashboard new UI - trend arus kas (cash in & cash out)
+- CXO dashboard new UI - trend arus kas (cash in)
+- CXO dashboard new UI - trend arus kas (cash out)
+- CXO dashboard new UI - setting widget
+- Onboarding NTB Giro & CM - halaman pendaftaran akun giro
+- Onboarding NTB Giro & CM - Profil Orang yang Berwenang
+- Onboarding NTB Giro & CM - Verifikasi Email
+- Onboarding NTB Giro & CM - Detail perusahaan
+- Onboarding NTB Giro & CM - Alamat Perusahaan
+- Onboarding NTB Giro & CM - Akte dan Perijinan
+- Onboarding NTB Giro & CM - Upload Dokumen Perusahaan
+- Onboarding NTB Giro & CM - kebutuhan pengguna
+- Onboarding NTB Giro & CM - System Administrator Registration
+- Onboarding NTB Giro & CM - User Operational Register
+- Onboarding NTB Giro & CM - Pilih Cabang Pendaftaran
+- Onboarding NTB Giro & CM - Edit Ringkasan Pengajuan
+- Onboarding NTB Giro & CM - Syarat dan Ketentuan
+- Onboarding NTB Giro & CM - save form
+- Onboarding ETB CM - sign up
+- Onboarding ETB CM - Profil Orang yang Berwenang
+- Onboarding ETB CM - Verifikasi Email
+- Onboarding ETB CM - kebutuhan pengguna
+- Onboarding ETB CM - System Administrator Registration
+- Onboarding ETB CM - User Operational Register
+- Onboarding ETB CM - Pilih Cabang Pendaftaran
+- Onboarding ETB CM - Edit Ringkasan Pengajuan
+- Onboarding ETB CM - Syarat dan Ketentuan
+- Onboarding ETB CM - save form
+- Pembuatan captcha 8 digit (CXO)
+- Enhancement Back Office CXO
+- New Landing Page CXO - Landing page
+- New Landing Page CXO - Channel page
+- New Landing Page CXO - FAQ page
+- handling expiration password
+- NEW UI Dashboard - SSO & iframe handling channel change password
+- Force first login update password CXO
